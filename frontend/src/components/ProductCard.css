@@ -5,12 +5,22 @@
   overflow: hidden;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  position: relative;
 }
 
 .product-card:hover {
   transform: translateY(-6px);
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
   border-color: #ff6b00;
+}
+
+.product-card.added {
+  border-color: #10b981;
+  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.2);
+}
+
+.product-card.added .product-image {
+  border-bottom: 3px solid #10b981;
 }
 
 .product-image {
@@ -71,6 +81,50 @@
 
 .product-image:hover img {
   transform: scale(1.1);
+}
+
+.added-badge {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  width: 60px;
+  height: 60px;
+  background: #10b981;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  z-index: 10;
+  animation: badgePop 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.4);
+}
+
+@keyframes badgePop {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+}
+
+.added-badge svg {
+  animation: checkDraw 0.3s ease-out 0.2s forwards;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+}
+
+@keyframes checkDraw {
+  to {
+    stroke-dashoffset: 0;
+  }
 }
 
 .no-image {
@@ -144,6 +198,26 @@
   box-shadow: 0 4px 12px rgba(255, 107, 0, 0.3);
   text-transform: uppercase;
   letter-spacing: 0.02em;
+  position: relative;
+  overflow: hidden;
+}
+
+.add-to-cart-btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.add-to-cart-btn:active::before {
+  width: 300px;
+  height: 300px;
 }
 
 .add-to-cart-btn:hover:not(:disabled) {
@@ -153,7 +227,17 @@
 }
 
 .add-to-cart-btn:active:not(:disabled) {
-  transform: translateY(-1px);
+  transform: translateY(-1px) scale(0.98);
+}
+
+.add-to-cart-btn.adding {
+  background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+  cursor: wait;
+}
+
+.add-to-cart-btn.added {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
 }
 
 .add-to-cart-btn:disabled {
@@ -161,6 +245,16 @@
   color: #9ca3af;
   cursor: not-allowed;
   box-shadow: none;
+}
+
+.spin-icon {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @media (max-width: 768px) {
