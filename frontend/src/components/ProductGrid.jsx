@@ -1,4 +1,7 @@
+import { useState } from 'react'
 import './ProductGrid.css'
+
+const PRODUCTS_PER_PAGE = 8
 
 function ProductGrid({ products, productsByCategory, loading, onAddToCart }) {
   const formatPrice = (value) => {
@@ -27,13 +30,13 @@ function ProductGrid({ products, productsByCategory, loading, onAddToCart }) {
             <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
           </svg>
           <h3>No se encontraron productos</h3>
-          <p>Intent con otros filtros o categor</p>
+          <p>Intentá¡¡ con otros filtros o categorí¡¡a</p>
         </div>
       </div>
     )
   }
 
-  // Si hay categor seleccionada, mostrar solo esa seccin
+  // Si hay categorí¡¡a seleccionada, mostrar solo esa secció¡¡¡n
   if (productsByCategory && Object.keys(productsByCategory).length > 0) {
     const selectedCategory = Object.keys(productsByCategory).find(cat => 
       productsByCategory[cat].length > 0 && products.every(p => p.category === cat)
@@ -53,7 +56,7 @@ function ProductGrid({ products, productsByCategory, loading, onAddToCart }) {
     }
   }
 
-  // Mostrar todos los productos agrupados por categora
+  // Mostrar todos los productos agrupados por categorí¡¡a
   return (
     <div className="product-grid">
       {Object.entries(productsByCategory).map(([category, categoryProducts]) => (
@@ -72,6 +75,15 @@ function ProductGrid({ products, productsByCategory, loading, onAddToCart }) {
 }
 
 function ProductSection({ category, products, onAddToCart, formatPrice }) {
+  const [visibleCount, setVisibleCount] = useState(PRODUCTS_PER_PAGE)
+  const hasMore = visibleCount < products.length
+
+  const handleShowMore = () => {
+    setVisibleCount(prev => prev + PRODUCTS_PER_PAGE)
+  }
+
+  const visibleProducts = products.slice(0, visibleCount)
+
   return (
     <section className="product-section">
       <div className="section-header">
@@ -79,7 +91,7 @@ function ProductSection({ category, products, onAddToCart, formatPrice }) {
         <span className="section-count">{products.length} productos</span>
       </div>
       <div className="products-grid">
-        {products.map(product => (
+        {visibleProducts.map(product => (
           <ProductCard 
             key={product.id} 
             product={product} 
@@ -88,6 +100,18 @@ function ProductSection({ category, products, onAddToCart, formatPrice }) {
           />
         ))}
       </div>
+      {hasMore && (
+        <div className="show-more-container">
+          <button className="show-more-btn" onClick={handleShowMore}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <polyline points="1 4 1 10 7 10"></polyline>
+              <polyline points="23 20 23 14 17 14"></polyline>
+              <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"></path>
+            </svg>
+            Ver más productos ({products.length - visibleCount} restantes)
+          </button>
+        </div>
+      )}
     </section>
   )
 }
