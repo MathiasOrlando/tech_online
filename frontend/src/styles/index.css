@@ -1,4 +1,8 @@
-* { margin: 0; padding: 0; box-sizing: border-box; }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', sans-serif;
@@ -7,8 +11,16 @@ body {
   line-height: 1.6;
 }
 
-.app { min-height: 100vh; padding-bottom: 100px; }
-.main-content { min-height: calc(100vh - 200px); }
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
+  min-height: calc(100vh - 500px);
+}
 
 .loading {
   display: flex;
@@ -20,7 +32,8 @@ body {
 }
 
 .spinner {
-  width: 40px; height: 40px;
+  width: 40px;
+  height: 40px;
   border: 4px solid #e0e0e0;
   border-top-color: #667eea;
   border-radius: 50%;
@@ -28,11 +41,33 @@ body {
   margin-bottom: 1rem;
 }
 
-@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
 
-.no-products { text-align: center; padding: 4rem 1rem; color: #666; font-size: 1.1rem; }
+.no-products {
+  text-align: center;
+  padding: 4rem 1rem;
+  color: #666;
+  font-size: 1.1rem;
+}
 
-@media (max-width: 768px) {
-  .cart-modal { max-height: 90vh; }
-  .cart-float { bottom: 1rem; right: 1rem; width: 50px; height: 50px; }
+/* Scrollbar personalizado */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #667eea;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #5568d3;
 }

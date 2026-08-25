@@ -2,10 +2,12 @@ import { useState, useEffect } from 'react'
 import { fetchProducts, fetchCategories } from './services/api'
 import { useCart } from './hooks/useCart'
 import Header from './components/Header'
+import Hero from './components/Hero'
 import SearchBar from './components/SearchBar'
 import CategoryFilter from './components/CategoryFilter'
 import ProductCard from './components/ProductCard'
-import Cart from './components/Cart'
+import CartSidebar from './components/CartSidebar'
+import Footer from './components/Footer'
 
 function App() {
   const [products, setProducts] = useState([])
@@ -13,6 +15,7 @@ function App() {
   const [loading, setLoading] = useState(true)
   const [filters, setFilters] = useState({ q: '', categoria: '', proveedor: '' })
   const { cart, addToCart, removeFromCart, total, toWhatsAppMessage } = useCart()
+  const [isCartOpen, setIsCartOpen] = useState(false)
 
   useEffect(() => {
     setLoading(true)
@@ -37,7 +40,8 @@ function App() {
 
   return (
     <div className="app">
-      <Header cartCount={cart.length} />
+      <Header cartCount={cart.length} onOpenCart={() => setIsCartOpen(true)} />
+      <Hero />
       <main className="main-content">
         <SearchBar value={filters.q} onChange={q => setFilters(prev => ({ ...prev, q }))} />
         <CategoryFilter categories={categories} selected={filters.categoria} onChange={cat => setFilters(prev => ({ ...prev, categoria: cat }))} />
@@ -55,7 +59,15 @@ function App() {
           </div>
         )}
       </main>
-      <Cart cart={cart} total={total} onRemove={removeFromCart} onCheckout={handleWhatsAppOrder} />
+      <Footer />
+      <CartSidebar 
+        isOpen={isCartOpen} 
+        onClose={() => setIsCartOpen(false)} 
+        cart={cart} 
+        total={total} 
+        onRemove={removeFromCart} 
+        onCheckout={handleWhatsAppOrder} 
+      />
     </div>
   )
 }
