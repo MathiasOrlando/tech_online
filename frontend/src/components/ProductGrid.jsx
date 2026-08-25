@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import './ProductGrid.css'
 
-const PRODUCTS_PER_PAGE = 8
+const PRODUCTS_PER_PAGE = 5
 
-function ProductGrid({ products, productsByCategory, loading, onAddToCart }) {
+function ProductGrid({ products, productsByCategory, loading, onAddToCart, categoryRefs, onShowMore }) {
   const formatPrice = (value) => {
     if (!value) return 'Consultar'
     return `Gs ${value.toLocaleString('es-PY')}`
@@ -50,6 +50,8 @@ function ProductGrid({ products, productsByCategory, loading, onAddToCart }) {
             products={productsByCategory[selectedCategory]}
             onAddToCart={onAddToCart}
             formatPrice={formatPrice}
+            categoryRef={el => categoryRefs.current[selectedCategory] = el}
+            onShowMore={() => onShowMore(selectedCategory)}
           />
         </div>
       )
@@ -67,6 +69,8 @@ function ProductGrid({ products, productsByCategory, loading, onAddToCart }) {
             products={categoryProducts}
             onAddToCart={onAddToCart}
             formatPrice={formatPrice}
+            categoryRef={el => categoryRefs.current[category] = el}
+            onShowMore={() => onShowMore(category)}
           />
         )
       ))}
@@ -74,7 +78,7 @@ function ProductGrid({ products, productsByCategory, loading, onAddToCart }) {
   )
 }
 
-function ProductSection({ category, products, onAddToCart, formatPrice }) {
+function ProductSection({ category, products, onAddToCart, formatPrice, categoryRef, onShowMore }) {
   const [visibleCount, setVisibleCount] = useState(PRODUCTS_PER_PAGE)
   const hasMore = visibleCount < products.length
 
@@ -85,7 +89,7 @@ function ProductSection({ category, products, onAddToCart, formatPrice }) {
   const visibleProducts = products.slice(0, visibleCount)
 
   return (
-    <section className="product-section">
+    <section className="product-section" ref={categoryRef}>
       <div className="section-header">
         <h2 className="section-title">{category}</h2>
         <span className="section-count">{products.length} productos</span>

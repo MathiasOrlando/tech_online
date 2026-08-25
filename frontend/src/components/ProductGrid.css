@@ -2,11 +2,12 @@
   flex: 1;
   padding: 2rem;
   background: linear-gradient(180deg, #fffbeb 0%, #fef3c7 100%);
-  min-height: calc(100vh - 300px);
+  min-height: calc(100vh - 400px);
 }
 
 .product-section {
   margin-bottom: 3rem;
+  scroll-margin-top: 200px;
 }
 
 .product-section:last-child {

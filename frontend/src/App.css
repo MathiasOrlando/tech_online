@@ -5,7 +5,6 @@
 }
 
 .main-layout {
-  display: flex;
   flex: 1;
   background: linear-gradient(180deg, #fffbeb 0%, #fef3c7 100%);
 }

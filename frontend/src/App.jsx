@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { fetchProducts, fetchCategories } from './services/api'
 import { useCart } from './hooks/useCart'
 import Header from './components/Header'
 import Hero from './components/Hero'
-import Sidebar from './components/Sidebar'
+import CategoryBar from './components/CategoryBar'
 import ProductGrid from './components/ProductGrid'
 import Footer from './components/Footer'
 import CartSidebar from './components/CartSidebar'
@@ -22,6 +22,7 @@ function App() {
   })
   const { cart, addToCart, removeFromCart, total, toWhatsAppMessage } = useCart()
   const [isCartOpen, setIsCartOpen] = useState(false)
+  const categoryRefs = useRef({})
 
   useEffect(() => {
     setLoading(true)
@@ -44,27 +45,44 @@ function App() {
     window.open(`https://wa.me/${phone}?text=${message}`, '_blank')
   }
 
-  // Agrupar productos por categoría
+  // Agrupar productos por categorí¡¡a
   const productsByCategory = categories.reduce((acc, cat) => {
     acc[cat] = products.filter(p => p.category === cat)
     return acc
   }, {})
 
+  // Funció¡¡¡n para scroll suave a una categorí¡¡a
+  const scrollToCategory = (category) => {
+    const element = categoryRefs.current[category]
+    if (element) {
+      const offset = 100
+      const elementPosition = element.getBoundingClientRect().top
+      const offsetPosition = elementPosition + window.pageYOffset - offset
+      
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      })
+    }
+  }
+
   return (
     <div className="app">
       <Header cartCount={cart.length} onOpenCart={() => setIsCartOpen(true)} />
       <Hero />
+      <CategoryBar 
+        categories={categories}
+        productsByCategory={productsByCategory}
+        onCategoryClick={scrollToCategory}
+      />
       <div className="main-layout">
-        <Sidebar 
-          categories={categories}
-          filters={filters}
-          onFilterChange={setFilters}
-        />
         <ProductGrid 
           products={products}
           productsByCategory={productsByCategory}
           loading={loading}
           onAddToCart={addToCart}
+          categoryRefs={categoryRefs}
+          onShowMore={scrollToCategory}
         />
       </div>
       <Footer />
