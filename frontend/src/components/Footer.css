@@ -1,53 +1,71 @@
 .footer {
-  background: #1a1a1a;
-  color: #fff;
+  background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+  color: #f9fafb;
   margin-top: 4rem;
 }
 
 .footer-content {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 3rem 1rem 2rem 1rem;
+  padding: 3.5rem 1rem 2.5rem 1rem;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 2rem;
+  gap: 2.5rem;
 }
 
 .footer-section h3 {
   font-size: 1.5rem;
   margin: 0 0 1rem 0;
-  color: #667eea;
+  background: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 700;
 }
 
 .footer-section h4 {
   font-size: 1.1rem;
-  margin: 0 0 0.75rem 0;
-  color: #fff;
+  margin: 0 0 1rem 0;
+  color: #f9fafb;
+  font-weight: 600;
+  position: relative;
+  padding-bottom: 0.5rem;
+}
+
+.footer-section h4::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 40px;
+  height: 2px;
+  background: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%);
+  border-radius: 1px;
 }
 
 .footer-section p {
-  margin: 0 0 0.5rem 0;
-  color: #ccc;
-  font-size: 0.95rem;
-  line-height: 1.6;
+  margin: 0 0 0.625rem 0;
+  color: #9ca3af;
+  font-size: 0.925rem;
+  line-height: 1.7;
 }
 
 .footer-bottom {
-  border-top: 1px solid #333;
+  border-top: 1px solid #374151;
   padding: 1.5rem;
   text-align: center;
-  background: #111;
+  background: rgba(0, 0, 0, 0.2);
 }
 
 .footer-bottom p {
   margin: 0;
-  color: #888;
+  color: #6b7280;
   font-size: 0.85rem;
 }
 
 @media (max-width: 768px) {
   .footer-content {
     grid-template-columns: 1fr;
-    gap: 1.5rem;
+    gap: 2rem;
   }
 }
