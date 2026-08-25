@@ -1,4 +1,4 @@
-# Tech Online - Tienda con WhatsApp Checkout
+# Tech Care Shop - Tienda con WhatsApp Checkout
 
 Tienda online moderna construida con React + Django que permite a los clientes armar un carrito y enviar el pedido por WhatsApp.
 
@@ -63,7 +63,7 @@ La app consume tu API Flask:
 
 ## Personalizacion
 
-- Colores: `frontend/src/styles/index.css`
+- Colores: `frontend/src/components/Header.css`
 - WhatsApp: `.env` o `App.jsx`
 
 ## Licencia

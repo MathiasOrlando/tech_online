@@ -12,7 +12,7 @@ function Header({ cartCount, onOpenCart }) {
       <div className="header-main">
         <div className="header-content">
           <div className="logo-section">
-            <h1 className="logo">Tech Online</h1>
+            <h1 className="logo">Tech Care Shop</h1>
             <p className="tagline">Tu tienda de tecnología</p>
           </div>
           <div className="header-actions">

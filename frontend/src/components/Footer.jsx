@@ -5,14 +5,14 @@ function Footer() {
     <footer className="footer">
       <div className="footer-content">
         <div className="footer-section">
-          <h3>Tech Online</h3>
+          <h3>Tech Care Shop</h3>
           <p>Tu tienda de confianza para productos tecnológicos al mejor precio.</p>
         </div>
         <div className="footer-section">
           <h4>Contacto</h4>
           <p>📍 Asuncion, Paraguay</p>
           <p>📱 +595 9XX XXX XXX</p>
-          <p>📧 info@techonline.com</p>
+          <p>📧 info@techcareshop.com</p>
         </div>
         <div className="footer-section">
           <h4>Horarios</h4>
@@ -22,7 +22,7 @@ function Footer() {
         </div>
       </div>
       <div className="footer-bottom">
-        <p>&copy; 2026 Tech Online. Todos los derechos reservados.</p>
+        <p>&copy; 2026 Tech Care Shop. Todos los derechos reservados.</p>
       </div>
     </footer>
   )

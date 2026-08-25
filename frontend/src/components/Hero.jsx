@@ -4,7 +4,7 @@ function Hero() {
   return (
     <section className="hero">
       <div className="hero-content">
-        <h1 className="hero-title">Bienvenido a Tech Online</h1>
+        <h1 className="hero-title">Bienvenido a Tech Care Shop</h1>
         <p className="hero-subtitle">Encuentra los mejores productos tecnológicos al mejor precio</p>
         <div className="hero-features">
           <div className="hero-feature">
@@ -27,6 +27,9 @@ function Hero() {
             </svg>
             <span>Envios a todo el país</span>
           </div>
+        </div>
+        <div className="promo-banner">
+          🔥 ¡Envios gratis en compras mayores a Gs 500.000!
         </div>
       </div>
     </section>
