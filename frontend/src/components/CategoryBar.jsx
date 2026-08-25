@@ -24,7 +24,6 @@ function CategoryBar({ categories, productsByCategory, onCategoryClick }) {
         </div>
         <div className="category-bar-scroll">
           {categories.map(category => {
-            const count = productsByCategory[category]?.length || 0
             const image = getCategoryImage(category)
             
             return (
@@ -49,7 +48,6 @@ function CategoryBar({ categories, productsByCategory, onCategoryClick }) {
                 )}
                 <div className="category-info">
                   <span className="category-name">{category}</span>
-                  <span className="category-count">{count}</span>
                 </div>
               </button>
             )

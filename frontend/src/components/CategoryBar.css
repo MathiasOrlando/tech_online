@@ -128,7 +128,7 @@
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.75rem;
+  padding: 0.75rem 0.75rem 1rem 0.75rem;
 }
 
 .category-name {
@@ -142,16 +142,6 @@
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
-}
-
-.category-count {
-  background: linear-gradient(135deg, #ff6b00 0%, #ff4500 100%);
-  color: white;
-  padding: 0.25rem 0.75rem;
-  border-radius: 9999px;
-  font-size: 0.75rem;
-  font-weight: 800;
-  box-shadow: 0 2px 6px rgba(255, 107, 0, 0.3);
 }
 
 @media (max-width: 768px) {
