@@ -7,13 +7,15 @@
 
 .search-input {
   width: 100%;
-  padding: 1.125rem 1.125rem 1.125rem 3.25rem;
+  padding: 1.25rem 1.25rem 1.25rem 3.5rem;
   border: 2px solid #e5e7eb;
   border-radius: 16px;
   font-size: 1rem;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   background: #ffffff;
   color: #1f2937;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 .search-input::placeholder {
@@ -22,19 +24,19 @@
 
 .search-input:focus {
   outline: none;
-  border-color: #4f46e5;
-  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
-  transform: translateY(-1px);
+  border-color: #ff6b00;
+  box-shadow: 0 0 0 4px rgba(255, 107, 0, 0.15), 0 4px 12px rgba(255, 107, 0, 0.1);
+  transform: translateY(-2px);
 }
 
 .search-icon {
   position: absolute;
-  left: 2.25rem;
+  left: 2.5rem;
   top: 50%;
   transform: translateY(-50%);
   color: #9ca3af;
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
 }
 
 @media (max-width: 768px) {
