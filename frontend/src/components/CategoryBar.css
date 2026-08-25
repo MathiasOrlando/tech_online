@@ -96,11 +96,38 @@
   background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
 }
 
+.image-placeholder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, #fef3c7 0%, #fde68a 50%, #fef3c7 100%);
+  animation: shimmer 1.5s infinite;
+  z-index: 1;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
 .category-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  opacity: 0;
+  position: relative;
+  z-index: 2;
+}
+
+.category-image img.loaded {
+  opacity: 1;
 }
 
 .category-bar-item:hover .category-image img {
@@ -114,6 +141,7 @@
   right: 0;
   bottom: 0;
   background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.3) 100%);
+  z-index: 3;
 }
 
 .category-image-placeholder {

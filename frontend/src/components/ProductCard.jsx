@@ -1,16 +1,31 @@
 import './ProductCard.css'
 
-function ProductCard({ product, onAdd }) {
-  const formatPrice = (value) => {
-    if (!value) return 'Consultar'
-    return `Gs ${value.toLocaleString('es-PY')}`
+function ProductCard({ product, onAdd, formatPrice }) {
+  const [imageLoaded, setImageLoaded] = useState(false)
+  const [imageError, setImageError] = useState(false)
+
+  const handleImageLoad = () => {
+    setImageLoaded(true)
+  }
+
+  const handleImageError = () => {
+    setImageError(true)
   }
 
   return (
     <div className="product-card">
       <div className="product-image">
-        {product.images && product.images.length > 0 ? (
-          <img src={product.images[0]} alt={product.title} />
+        {!imageLoaded && !imageError && (
+          <div className="image-placeholder"></div>
+        )}
+        {product.images && product.images.length > 0 && !imageError ? (
+          <img 
+            src={product.images[0]} 
+            alt={product.title}
+            loading="lazy"
+            onLoad={handleImageLoad}
+            onError={handleImageError}
+          />
         ) : (
           <div className="no-image">
             <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1">
@@ -25,7 +40,11 @@ function ProductCard({ product, onAdd }) {
         <h3 className="product-title">{product.title}</h3>
         <p className="product-category">{product.category}</p>
         <p className="product-price">{product.price || formatPrice(product.priceNumeric)}</p>
-        <button className="add-to-cart-btn" onClick={onAdd} disabled={!product.available}>
+        <button 
+          className="add-to-cart-btn" 
+          onClick={() => onAdd(product)}
+          disabled={!product.available}
+        >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <circle cx="9" cy="21" r="1"></circle>
             <circle cx="20" cy="21" r="1"></circle>

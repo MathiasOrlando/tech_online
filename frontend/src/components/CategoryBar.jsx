@@ -15,6 +15,18 @@ function CategoryBar({ categories, productsByCategory, onCategoryClick }) {
     return null
   }
 
+  const handleImageLoad = (e) => {
+    e.target.classList.add('loaded')
+  }
+
+  const handleImageError = (e) => {
+    e.target.style.display = 'none'
+    const placeholder = e.target.parentElement.querySelector('.category-image-placeholder')
+    if (placeholder) {
+      placeholder.style.display = 'flex'
+    }
+  }
+
   return (
     <div className="category-bar-container">
       <div className="category-bar">
@@ -34,7 +46,14 @@ function CategoryBar({ categories, productsByCategory, onCategoryClick }) {
               >
                 {image ? (
                   <div className="category-image">
-                    <img src={image} alt={category} />
+                    <div className="image-placeholder"></div>
+                    <img 
+                      src={image} 
+                      alt={category}
+                      loading="lazy"
+                      onLoad={handleImageLoad}
+                      onError={handleImageError}
+                    />
                     <div className="category-image-overlay"></div>
                   </div>
                 ) : (
