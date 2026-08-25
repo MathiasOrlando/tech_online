@@ -3,17 +3,23 @@ import { fetchProducts, fetchCategories } from './services/api'
 import { useCart } from './hooks/useCart'
 import Header from './components/Header'
 import Hero from './components/Hero'
-import SearchBar from './components/SearchBar'
-import CategoryFilter from './components/CategoryFilter'
-import ProductCard from './components/ProductCard'
-import CartSidebar from './components/CartSidebar'
+import Sidebar from './components/Sidebar'
+import ProductGrid from './components/ProductGrid'
 import Footer from './components/Footer'
+import CartSidebar from './components/CartSidebar'
 
 function App() {
   const [products, setProducts] = useState([])
   const [categories, setCategories] = useState([])
   const [loading, setLoading] = useState(true)
-  const [filters, setFilters] = useState({ q: '', categoria: '', proveedor: '' })
+  const [filters, setFilters] = useState({ 
+    q: '', 
+    categoria: '', 
+    proveedor: '',
+    sortBy: 'default',
+    minPrice: '',
+    maxPrice: ''
+  })
   const { cart, addToCart, removeFromCart, total, toWhatsAppMessage } = useCart()
   const [isCartOpen, setIsCartOpen] = useState(false)
 
@@ -38,27 +44,29 @@ function App() {
     window.open(`https://wa.me/${phone}?text=${message}`, '_blank')
   }
 
+  // Agrupar productos por categoría
+  const productsByCategory = categories.reduce((acc, cat) => {
+    acc[cat] = products.filter(p => p.category === cat)
+    return acc
+  }, {})
+
   return (
     <div className="app">
       <Header cartCount={cart.length} onOpenCart={() => setIsCartOpen(true)} />
       <Hero />
-      <main className="main-content">
-        <SearchBar value={filters.q} onChange={q => setFilters(prev => ({ ...prev, q }))} />
-        <CategoryFilter categories={categories} selected={filters.categoria} onChange={cat => setFilters(prev => ({ ...prev, categoria: cat }))} />
-        {loading ? (
-          <div className="loading"><div className="spinner"></div><p>Cargando productos...</p></div>
-        ) : (
-          <div className="products-grid">
-            {products.length === 0 ? (
-              <div className="no-products"><p>No se encontraron productos</p></div>
-            ) : (
-              products.map(product => (
-                <ProductCard key={product.id} product={product} onAdd={() => addToCart(product)} />
-              ))
-            )}
-          </div>
-        )}
-      </main>
+      <div className="main-layout">
+        <Sidebar 
+          categories={categories}
+          filters={filters}
+          onFilterChange={setFilters}
+        />
+        <ProductGrid 
+          products={products}
+          productsByCategory={productsByCategory}
+          loading={loading}
+          onAddToCart={addToCart}
+        />
+      </div>
       <Footer />
       <CartSidebar 
         isOpen={isCartOpen} 
