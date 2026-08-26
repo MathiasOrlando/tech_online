@@ -15,26 +15,26 @@ function ProductCard({ product, onAdd, formatPrice }) {
     setImageError(true)
   }
 
-  const handleAddToCart = async () => {
-    if (!product.available) return
+  const handleAddToCart = () => {
+    if (!product.available || isAdding) return
     
+    // Estado: Agregando
     setIsAdding(true)
+    setAdded(false)
     
-    try {
-      await onAdd(product)
+    // Agregar al carrito
+    onAdd(product)
+    
+    // Después de 0.5s: Estado agregado
+    setTimeout(() => {
+      setIsAdding(false)
       setAdded(true)
       
-      // Mantener el estado de agregando por 0.5s
-      await new Promise(resolve => setTimeout(resolve, 500))
-      setIsAdding(false)
-      
-      // Mantener el estado de agregado por 3s
-      await new Promise(resolve => setTimeout(resolve, 3000))
-      setAdded(false)
-    } catch (error) {
-      console.error('Error al agregar:', error)
-      setIsAdding(false)
-    }
+      // Después de 3s: Volver a normal
+      setTimeout(() => {
+        setAdded(false)
+      }, 3000)
+    }, 500)
   }
 
   return (
