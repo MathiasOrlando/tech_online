@@ -14,18 +14,6 @@ function ProductCard({ product, onAdd, formatPrice }) {
     setImageError(true)
   }
 
-  const handleAddToCart = () => {
-    if (!product.available) return
-    
-    console.log('🔴 CLICK DETECTADO!')
-    setClicked(true)
-    onAdd(product)
-    
-    setTimeout(() => {
-      setClicked(false)
-    }, 3000)
-  }
-
   return (
     <div className={`product-card ${clicked ? 'added' : ''}`}>
       <div className="product-image">
@@ -64,7 +52,13 @@ function ProductCard({ product, onAdd, formatPrice }) {
         <button 
           type="button"
           className={`add-to-cart-btn ${clicked ? 'added' : ''}`} 
-          onClick={handleAddToCart}
+          onClick={() => {
+            console.log('🔴 CLICK INLINE!')
+            alert('CLICK!')
+            setClicked(true)
+            onAdd(product)
+            setTimeout(() => setClicked(false), 3000)
+          }}
           disabled={!product.available}
           style={clicked ? { background: '#10b981 !important', color: 'white' } : {}}
         >
