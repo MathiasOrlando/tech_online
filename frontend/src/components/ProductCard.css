@@ -17,6 +17,16 @@
 .product-card.added {
   border-color: #10b981;
   box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3);
+  animation: cardPulse 0.5s ease-in-out;
+}
+
+@keyframes cardPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
 }
 
 .product-card.added .product-image {
@@ -239,6 +249,16 @@
 .add-to-cart-btn.added {
   background: linear-gradient(135deg, #10b981 0%, #059669 100%);
   box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+  animation: buttonPulse 0.5s ease-in-out;
+}
+
+@keyframes buttonPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
 }
 
 .add-to-cart-btn:disabled {

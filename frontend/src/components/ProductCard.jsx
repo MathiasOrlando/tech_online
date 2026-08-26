@@ -16,22 +16,27 @@ function ProductCard({ product, onAdd, formatPrice }) {
   }
 
   const handleAddToCart = () => {
-    if (!product.available || isAdding) return
+    console.log('🔴 CLICK - isAdding:', isAdding, 'added:', added)
     
-    // Estado: Agregando
+    if (!product.available || isAdding) {
+      console.log('⚠️ BLOQUEADO - product.available:', product.available, 'isAdding:', isAdding)
+      return
+    }
+    
+    console.log('✅ AGREGANDO - Cambiando a estado isAdding=true')
     setIsAdding(true)
     setAdded(false)
     
-    // Agregar al carrito
     onAdd(product)
+    console.log('📦 PRODUCTO AGREGADO AL CARRITO')
     
-    // Después de 0.5s: Estado agregado
     setTimeout(() => {
+      console.log('✅ CAMBIANDO A AGREGADO - isAdding=false, added=true')
       setIsAdding(false)
       setAdded(true)
       
-      // Después de 3s: Volver a normal
       setTimeout(() => {
+        console.log('🔙 VOLVIENDO A NORMAL - added=false')
         setAdded(false)
       }, 3000)
     }, 500)
