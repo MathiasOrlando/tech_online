@@ -16,6 +16,7 @@ function ProductCard({ product, onAdd, formatPrice }) {
   }
 
   const handleAddToCart = () => {
+    alert('🔴 CLICK EN AGREGAR!')
     console.log('🔴 CLICK - isAdding:', isAdding, 'added:', added)
     
     if (!product.available || isAdding) {
