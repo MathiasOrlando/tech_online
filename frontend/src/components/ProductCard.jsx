@@ -51,16 +51,29 @@ function ProductCard({ product, onAdd, formatPrice }) {
         <p className="product-price">{product.price || formatPrice(product.priceNumeric)}</p>
         <button 
           type="button"
-          className={`add-to-cart-btn ${clicked ? 'added' : ''}`} 
           onClick={() => {
-            console.log('🔴 CLICK INLINE!')
-            alert('CLICK!')
+            console.log('CLICK!')
             setClicked(true)
             onAdd(product)
             setTimeout(() => setClicked(false), 3000)
           }}
           disabled={!product.available}
-          style={clicked ? { background: '#10b981 !important', color: 'white' } : {}}
+          style={{
+            width: '100%',
+            padding: '1.5rem',
+            background: clicked ? '#10b981' : '#0ea5e9',
+            color: 'white',
+            border: '3px dashed #fbbf24',
+            borderRadius: '12px',
+            fontSize: '1.25rem',
+            fontWeight: '900',
+            cursor: product.available ? 'pointer' : 'not-allowed',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '0.5rem',
+            textTransform: 'uppercase',
+          }}
         >
           {clicked ? (
             <>
