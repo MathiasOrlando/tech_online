@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import './ProductCard.css'
 
 function ProductCard({ product, onAdd, formatPrice }) {
   const [imageLoaded, setImageLoaded] = useState(false)
   const [imageError, setImageError] = useState(false)
-  const [buttonState, setButtonState] = useState('normal') // 'normal' | 'adding' | 'added'
+  const [clickCount, setClickCount] = useState(0)
+  const [added, setAdded] = useState(false)
 
   const handleImageLoad = () => {
     setImageLoaded(true)
@@ -15,30 +16,25 @@ function ProductCard({ product, onAdd, formatPrice }) {
   }
 
   const handleAddToCart = () => {
-    if (!product.available || buttonState !== 'normal') return
+    if (!product.available) return
     
-    // Estado: Agregando
-    setButtonState('adding')
+    // Forzar re-render incrementando clickCount
+    setClickCount(prev => prev + 1)
+    setAdded(true)
     
     // Agregar al carrito
     onAdd(product)
     
-    // Estado: Agregado (despues de 0.5s)
+    // Volver a normal despues de 3 segundos
     setTimeout(() => {
-      setButtonState('added')
-      
-    // Volver a normal (despues de 3s)
-      setTimeout(() => {
-        setButtonState('normal')
-      }, 3000)
-    }, 500)
+      setAdded(false)
+    }, 3000)
   }
 
-  const isAdding = buttonState === 'adding'
-  const added = buttonState === 'added'
+  const isAdding = false // Simplificado
 
   return (
-    <div className={`product-card ${added ? 'added' : ''}`}>
+    <div key={clickCount} className={`product-card ${added ? 'added' : ''}`}>
       <div className="product-image">
         {!imageLoaded && !imageError && (
           <div className="image-placeholder"></div>
@@ -74,19 +70,11 @@ function ProductCard({ product, onAdd, formatPrice }) {
         <p className="product-price">{product.price || formatPrice(product.priceNumeric)}</p>
         <button 
           type="button"
-          className={`add-to-cart-btn ${isAdding ? 'adding' : ''} ${added ? 'added' : ''}`} 
+          className={`add-to-cart-btn ${added ? 'added' : ''}`} 
           onClick={handleAddToCart}
-          disabled={!product.available || isAdding}
+          disabled={!product.available}
         >
-          {isAdding ? (
-            <>
-              <svg className="spin-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <circle cx="12" cy="12" r="10"></circle>
-                <path d="M12 6v6l4 2"></path>
-              </svg>
-              Agregando...
-            </>
-          ) : added ? (
+          {added ? (
             <>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
                 <polyline points="20 6 9 17 4 12"></polyline>
