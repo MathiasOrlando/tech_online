@@ -15,20 +15,26 @@ function ProductCard({ product, onAdd, formatPrice }) {
     setImageError(true)
   }
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
+    if (!product.available) return
+    
     setIsAdding(true)
-    setAdded(true)
-    onAdd(product)
     
-    // Animación de agregado
-    setTimeout(() => {
+    try {
+      await onAdd(product)
+      setAdded(true)
+      
+      // Mantener el estado de agregando por 0.5s
+      await new Promise(resolve => setTimeout(resolve, 500))
       setIsAdding(false)
-    }, 300)
-    
-    // Volver al estado normal después de 2 segundos
-    setTimeout(() => {
+      
+      // Mantener el estado de agregado por 3s
+      await new Promise(resolve => setTimeout(resolve, 3000))
       setAdded(false)
-    }, 2000)
+    } catch (error) {
+      console.error('Error al agregar:', error)
+      setIsAdding(false)
+    }
   }
 
   return (
@@ -69,7 +75,7 @@ function ProductCard({ product, onAdd, formatPrice }) {
         <button 
           className={`add-to-cart-btn ${isAdding ? 'adding' : ''} ${added ? 'added' : ''}`} 
           onClick={handleAddToCart}
-          disabled={!product.available}
+          disabled={!product.available || isAdding}
         >
           {isAdding ? (
             <>
