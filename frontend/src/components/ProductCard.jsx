@@ -15,30 +15,41 @@ function ProductCard({ product, onAdd, formatPrice }) {
     setImageError(true)
   }
 
-  const handleAddToCart = () => {
-    alert('🔴 CLICK EN AGREGAR!')
-    console.log('🔴 CLICK - isAdding:', isAdding, 'added:', added)
+  const handleAddToCart = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
     
-    if (!product.available || isAdding) {
-      console.log('⚠️ BLOQUEADO - product.available:', product.available, 'isAdding:', isAdding)
+    alert('🔴 CLICK DIRECTO! product.available=' + product.available + ' isAdding=' + isAdding)
+    
+    if (!product.available) {
+      alert('⚠️ NO DISPONIBLE')
       return
     }
     
-    console.log('✅ AGREGANDO - Cambiando a estado isAdding=true')
+    if (isAdding) {
+      alert('⚠️ YA SE ESTA AGREGANDO')
+      return
+    }
+    
+    alert('✅ AGREGANDO AL CARRITO')
     setIsAdding(true)
     setAdded(false)
     
-    onAdd(product)
-    console.log('📦 PRODUCTO AGREGADO AL CARRITO')
+    if (onAdd) {
+      onAdd(product)
+      alert('📦 ONADD EJECUTADO')
+    } else {
+      alert('⚠️ ONADD ES UNDEFINED')
+    }
     
     setTimeout(() => {
-      console.log('✅ CAMBIANDO A AGREGADO - isAdding=false, added=true')
       setIsAdding(false)
       setAdded(true)
+      alert('✅ ESTADO: AGREGADO')
       
       setTimeout(() => {
-        console.log('🔙 VOLVIENDO A NORMAL - added=false')
         setAdded(false)
+        alert('🔙 ESTADO: NORMAL')
       }, 3000)
     }, 500)
   }
@@ -79,9 +90,10 @@ function ProductCard({ product, onAdd, formatPrice }) {
         <p className="product-category">{product.category}</p>
         <p className="product-price">{product.price || formatPrice(product.priceNumeric)}</p>
         <button 
+          type="button"
           className={`add-to-cart-btn ${isAdding ? 'adding' : ''} ${added ? 'added' : ''}`} 
           onClick={handleAddToCart}
-          disabled={!product.available || isAdding}
+          disabled={!product.available}
         >
           {isAdding ? (
             <>
