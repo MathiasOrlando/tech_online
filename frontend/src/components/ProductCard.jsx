@@ -4,8 +4,7 @@ import './ProductCard.css'
 function ProductCard({ product, onAdd, formatPrice }) {
   const [imageLoaded, setImageLoaded] = useState(false)
   const [imageError, setImageError] = useState(false)
-  const [clickCount, setClickCount] = useState(0)
-  const [added, setAdded] = useState(false)
+  const [clicked, setClicked] = useState(false)
 
   const handleImageLoad = () => {
     setImageLoaded(true)
@@ -18,23 +17,17 @@ function ProductCard({ product, onAdd, formatPrice }) {
   const handleAddToCart = () => {
     if (!product.available) return
     
-    // Forzar re-render incrementando clickCount
-    setClickCount(prev => prev + 1)
-    setAdded(true)
-    
-    // Agregar al carrito
+    console.log('🔴 CLICK DETECTADO!')
+    setClicked(true)
     onAdd(product)
     
-    // Volver a normal despues de 3 segundos
     setTimeout(() => {
-      setAdded(false)
+      setClicked(false)
     }, 3000)
   }
 
-  const isAdding = false // Simplificado
-
   return (
-    <div key={clickCount} className={`product-card ${added ? 'added' : ''}`}>
+    <div className={`product-card ${clicked ? 'added' : ''}`}>
       <div className="product-image">
         {!imageLoaded && !imageError && (
           <div className="image-placeholder"></div>
@@ -56,7 +49,7 @@ function ProductCard({ product, onAdd, formatPrice }) {
             </svg>
           </div>
         )}
-        {added && (
+        {clicked && (
           <div className="added-badge">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
               <polyline points="20 6 9 17 4 12"></polyline>
@@ -70,11 +63,12 @@ function ProductCard({ product, onAdd, formatPrice }) {
         <p className="product-price">{product.price || formatPrice(product.priceNumeric)}</p>
         <button 
           type="button"
-          className={`add-to-cart-btn ${added ? 'added' : ''}`} 
+          className={`add-to-cart-btn ${clicked ? 'added' : ''}`} 
           onClick={handleAddToCart}
           disabled={!product.available}
+          style={clicked ? { background: '#10b981 !important', color: 'white' } : {}}
         >
-          {added ? (
+          {clicked ? (
             <>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
                 <polyline points="20 6 9 17 4 12"></polyline>
