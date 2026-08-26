@@ -1,11 +1,10 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './ProductCard.css'
 
 function ProductCard({ product, onAdd, formatPrice }) {
   const [imageLoaded, setImageLoaded] = useState(false)
   const [imageError, setImageError] = useState(false)
-  const [isAdding, setIsAdding] = useState(false)
-  const [added, setAdded] = useState(false)
+  const [buttonState, setButtonState] = useState('normal') // 'normal' | 'adding' | 'added'
 
   const handleImageLoad = () => {
     setImageLoaded(true)
@@ -15,44 +14,28 @@ function ProductCard({ product, onAdd, formatPrice }) {
     setImageError(true)
   }
 
-  const handleAddToCart = (e) => {
-    e.preventDefault()
-    e.stopPropagation()
+  const handleAddToCart = () => {
+    if (!product.available || buttonState !== 'normal') return
     
-    alert('🔴 CLICK DIRECTO! product.available=' + product.available + ' isAdding=' + isAdding)
+    // Estado: Agregando
+    setButtonState('adding')
     
-    if (!product.available) {
-      alert('⚠️ NO DISPONIBLE')
-      return
-    }
+    // Agregar al carrito
+    onAdd(product)
     
-    if (isAdding) {
-      alert('⚠️ YA SE ESTA AGREGANDO')
-      return
-    }
-    
-    alert('✅ AGREGANDO AL CARRITO')
-    setIsAdding(true)
-    setAdded(false)
-    
-    if (onAdd) {
-      onAdd(product)
-      alert('📦 ONADD EJECUTADO')
-    } else {
-      alert('⚠️ ONADD ES UNDEFINED')
-    }
-    
+    // Estado: Agregado (despues de 0.5s)
     setTimeout(() => {
-      setIsAdding(false)
-      setAdded(true)
-      alert('✅ ESTADO: AGREGADO')
+      setButtonState('added')
       
+    // Volver a normal (despues de 3s)
       setTimeout(() => {
-        setAdded(false)
-        alert('🔙 ESTADO: NORMAL')
+        setButtonState('normal')
       }, 3000)
     }, 500)
   }
+
+  const isAdding = buttonState === 'adding'
+  const added = buttonState === 'added'
 
   return (
     <div className={`product-card ${added ? 'added' : ''}`}>
@@ -93,7 +76,7 @@ function ProductCard({ product, onAdd, formatPrice }) {
           type="button"
           className={`add-to-cart-btn ${isAdding ? 'adding' : ''} ${added ? 'added' : ''}`} 
           onClick={handleAddToCart}
-          disabled={!product.available}
+          disabled={!product.available || isAdding}
         >
           {isAdding ? (
             <>
