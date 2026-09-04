@@ -1,4 +1,21 @@
-Django>=4.2.0
-djangorestframework>=3.14.0
+# Django framework
+Django>=4.2
+djangorestframework>=3.14
+django-cors-headers>=4.0
+
+# Autenticació´´³n Google OAuth
+google-auth>=2.0
+dj-rest-auth>=6.0
+django-allauth>=0.57
+
+# Filtros y buesqueda
+django-filter>=23.0
+
+# Base de datos
+psycopg2-binary>=2.9
+
+# Variables de entorno
 python-decouple>=3.8
-gunicorn>=21.2.0
+
+# Produccioo0n
+gunicorn>=21.0
