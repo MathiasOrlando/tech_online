@@ -1,10 +1,7 @@
-"""
-URL configuration for api app.
-"""
 from django.urls import path
-from .views import ProductsView, CategoriesView
+from . import views
 
 urlpatterns = [
-    path('store/products', ProductsView.as_view(), name='products'),
-    path('store/categories', CategoriesView.as_view(), name='categories'),
+    path('products/', views.get_products, name='get_products'),
+    path('products/<int:product_id>/', views.get_product_detail, name='get_product_detail'),
 ]
