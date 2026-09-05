@@ -1,18 +1,19 @@
 import os
 from pathlib import Path
+from decouple import config
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-dev-key')
+SECRET_KEY = config('SECRET_KEY', default='django-insecure-dev-key')
 
-DEBUG = os.getenv('DEBUG', 'True') == 'True'
+DEBUG = config('DEBUG', default=True, cast=bool)
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1').split(',')
 
 # CORS configuration - permitir frontend local
-CORS_ALLOWED_ORIGINS = os.getenv(
+CORS_ALLOWED_ORIGINS = config(
     'CORS_ALLOWED_ORIGINS',
-    'http://localhost:5173,http://127.0.0.1:5173'
+    default='http://localhost:5173,http://127.0.0.1:5173'
 ).split(',')
 
 CORS_ALLOW_CREDENTIALS = True
@@ -25,12 +26,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'corsheaders',  # CORS habilitado
+    'corsheaders',
     'api',
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',  # CORS middleware (primero!)
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -60,14 +61,15 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'store_api.wsgi.application'
 
+# Base de datos PostgreSQL
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('DB_NAME', 'tech_online'),
-        'USER': os.getenv('DB_USER', 'postgres'),
-        'PASSWORD': os.getenv('DB_PASSWORD', ''),
-        'HOST': os.getenv('DB_HOST', 'localhost'),
-        'PORT': os.getenv('DB_PORT', '5432'),
+        'NAME': config('DB_NAME', default='tech_online'),
+        'USER': config('DB_USER', default='postgres'),
+        'PASSWORD': config('DB_PASSWORD', default=''),
+        'HOST': config('DB_HOST', default='localhost'),
+        'PORT': config('DB_PORT', default='5432'),
     }
 }
 
