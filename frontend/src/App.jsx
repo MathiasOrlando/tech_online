@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
-import { fetchProducts, fetchCategories } from './services/api'
+import { getProducts } from './services/productService'
+import { fetchCategories } from './services/api'
 import { useCart } from './hooks/useCart'
 import Header from './components/Header'
 import Hero from './components/Hero'
@@ -7,6 +8,7 @@ import CategoryBar from './components/CategoryBar'
 import ProductGrid from './components/ProductGrid'
 import Footer from './components/Footer'
 import CartSidebar from './components/CartSidebar'
+
 
 function App() {
   const [products, setProducts] = useState([])
@@ -24,20 +26,31 @@ function App() {
   const [isCartOpen, setIsCartOpen] = useState(false)
   const categoryRefs = useRef({})
 
+
   useEffect(() => {
     setLoading(true)
-    Promise.all([
-      fetchProducts(filters),
-      fetchCategories()
-    ]).then(([productsData, categoriesData]) => {
-      setProducts(productsData.products || [])
-      setCategories(categoriesData || [])
-      setLoading(false)
-    }).catch(err => {
-      console.error('Error:', err)
-      setLoading(false)
-    })
-  }, [filters])
+    
+    // Obtener productos desde productService (configurable)
+    getProducts()
+      .then(productsData => {
+        setProducts(productsData)
+        setLoading(false)
+      })
+      .catch(err => {
+        console.error('Error loading products:', err)
+        setLoading(false)
+      })
+    
+    // Obtener categorías (sigue usando api.js por ahora)
+    fetchCategories()
+      .then(categoriesData => {
+        setCategories(categoriesData || [])
+      })
+      .catch(err => {
+        console.error('Error loading categories:', err)
+      })
+  }, [])
+
 
   const handleWhatsAppOrder = () => {
     const phone = import.meta.env.VITE_WHATSAPP_PHONE || '5959XXXXXXXX'
@@ -45,11 +58,13 @@ function App() {
     window.open(`https://wa.me/${phone}?text=${message}`, '_blank')
   }
 
-  // Agrupar productos por categorí¡¡a
+
+  // Agrupar productos por categoría
   const productsByCategory = categories.reduce((acc, cat) => {
     acc[cat] = products.filter(p => p.category === cat)
     return acc
   }, {})
+
 
   // Funció¡¡¡n para scroll suave a una categorí¡¡a
   const scrollToCategory = (category) => {
@@ -65,6 +80,7 @@ function App() {
       })
     }
   }
+
 
   return (
     <div className="app">
@@ -97,5 +113,6 @@ function App() {
     </div>
   )
 }
+
 
 export default App
