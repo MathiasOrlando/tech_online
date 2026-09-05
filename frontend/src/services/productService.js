@@ -25,16 +25,28 @@ function getBaseUrl() {
 }
 
 /**
+ * Obtiene el endpoint de productos según la fuente
+ * - tech_prod usa /api/store/products
+ * - Django usa /api/products
+ */
+function getProductsEndpoint() {
+  if (PRODUCT_SOURCE === 'api') {
+    return '/api/store/products';
+  }
+  return '/api/products';
+}
+
+/**
  * Obtiene todos los productos
  * @returns {Promise<Array>} Lista de productos
  */
 export async function getProducts() {
   const baseUrl = getBaseUrl();
-  // Ruta correcta: /api/store/products
-  const endpoint = `${baseUrl}/api/store/products`;
-  console.log('🌐 Fetching from:', endpoint);
+  const endpoint = getProductsEndpoint();
+  const url = `${baseUrl}${endpoint}`;
+  console.log('🌐 Fetching from:', url);
   
-  const response = await fetch(endpoint);
+  const response = await fetch(url);
   
   if (!response.ok) {
     const error = await response.json();
@@ -54,7 +66,8 @@ export async function getProducts() {
  */
 export async function getProductById(productId) {
   const baseUrl = getBaseUrl();
-  const response = await fetch(`${baseUrl}/api/store/products/${productId}`);
+  const endpoint = getProductsEndpoint();
+  const response = await fetch(`${baseUrl}${endpoint}/${productId}`);
   
   if (!response.ok) {
     const error = await response.json();
