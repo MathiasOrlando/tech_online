@@ -7,13 +7,20 @@ const PRODUCT_SOURCE = import.meta.env.VITE_PRODUCT_SOURCE || 'api';
 const TECH_PROD_API_URL = import.meta.env.VITE_TECH_PROD_API_URL || 'http://localhost:5000';
 const DJANGO_API_URL = import.meta.env.VITE_DJANGO_API_URL || 'http://localhost:8000';
 
+// DEBUG: Ver configuración
+console.log('🔧 PRODUCT_SOURCE:', PRODUCT_SOURCE);
+console.log('🔧 TECH_PROD_API_URL:', TECH_PROD_API_URL);
+console.log('🔧 DJANGO_API_URL:', DJANGO_API_URL);
+
 /**
  * Obtiene la URL base según la configuración
  */
 function getBaseUrl() {
   if (PRODUCT_SOURCE === 'api') {
+    console.log('📡 Usando API directa (tech_prod)');
     return TECH_PROD_API_URL;
   }
+  console.log('📡 Usando DB (Django backend)');
   return DJANGO_API_URL;
 }
 
@@ -23,6 +30,8 @@ function getBaseUrl() {
  */
 export async function getProducts() {
   const baseUrl = getBaseUrl();
+  console.log('🌐 Fetching from:', `${baseUrl}/api/products`);
+  
   const response = await fetch(`${baseUrl}/api/products`);
   
   if (!response.ok) {
