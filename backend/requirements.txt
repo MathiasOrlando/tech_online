@@ -19,3 +19,5 @@ python-decouple>=3.8
 
 # Produccioo0n
 gunicorn>=21.0
+
+requests>=2.34
