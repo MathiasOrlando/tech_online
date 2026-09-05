@@ -32,7 +32,11 @@ def get_products(request):
             timeout=10
         )
         response.raise_for_status()
-        products = response.json()
+        data = response.json()
+        
+        # tech_prod retorna {products: [...]} o directamente el array
+        # Extraer el array de productos correctamente
+        products = data.get('products') if isinstance(data, dict) else data
         
         # Retornar productos (en el futuro guardar en DB)
         return Response({'products': products}, status=status.HTTP_200_OK)
@@ -66,7 +70,10 @@ def get_product_detail(request, product_id):
             timeout=10
         )
         response.raise_for_status()
-        product = response.json()
+        data = response.json()
+        
+        # tech_prod retorna {product: {...}} o directamente el objeto
+        product = data.get('product') if isinstance(data, dict) else data
         
         return Response({'product': product}, status=status.HTTP_200_OK)
         
