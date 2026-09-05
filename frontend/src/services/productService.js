@@ -30,9 +30,11 @@ function getBaseUrl() {
  */
 export async function getProducts() {
   const baseUrl = getBaseUrl();
-  console.log('🌐 Fetching from:', `${baseUrl}/api/products`);
+  // Ruta correcta: /api/store/products
+  const endpoint = `${baseUrl}/api/store/products`;
+  console.log('🌐 Fetching from:', endpoint);
   
-  const response = await fetch(`${baseUrl}/api/products`);
+  const response = await fetch(endpoint);
   
   if (!response.ok) {
     const error = await response.json();
@@ -52,7 +54,7 @@ export async function getProducts() {
  */
 export async function getProductById(productId) {
   const baseUrl = getBaseUrl();
-  const response = await fetch(`${baseUrl}/api/products/${productId}`);
+  const response = await fetch(`${baseUrl}/api/store/products/${productId}`);
   
   if (!response.ok) {
     const error = await response.json();
