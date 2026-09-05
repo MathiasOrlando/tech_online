@@ -19,8 +19,9 @@ class ProductService:
         Retorna lista de productos o None si hay error.
         """
         try:
+            # Ruta correcta: /api/store/products
             response = requests.get(
-                f"{self.api_url}/api/products",
+                f"{self.api_url}/api/store/products",
                 timeout=10
             )
             response.raise_for_status()
@@ -34,8 +35,9 @@ class ProductService:
         Obtiene un producto específico desde tech_prod API.
         """
         try:
+            # Ruta correcta: /api/store/products/{id}
             response = requests.get(
-                f"{self.api_url}/api/products/{product_id}",
+                f"{self.api_url}/api/store/products/{product_id}",
                 timeout=10
             )
             response.raise_for_status()
